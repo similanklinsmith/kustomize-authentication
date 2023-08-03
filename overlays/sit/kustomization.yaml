@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+namespace: deep-training
+
+images:
+- name: asia.gcr.io/poc-innovation-iot/deep-user-authentication
+  newTag: fd991a72
+
+
+configMapGenerator:
+- behavior: merge
+  files:
+  - configs/config.yaml
+  name: deep-user-authentication-configmap-file
+
+secretGenerator:
+- behavior: merge
+  envs:
+  - secrets/secret.env
+  name: deep-user-authentication-secret-env

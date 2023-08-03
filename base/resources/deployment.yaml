@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deep-user-authentication
+  labels:
+    app.kubernetes.io/name: deep-user-authentication
+    app.kubernetes.io/instance: deep-user-authentication
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: deep-user-authentication
+      app.kubernetes.io/instance: deep-user-authentication
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: deep-user-authentication
+        app.kubernetes.io/instance: deep-user-authentication
+    spec:
+      containers:
+        - name: deep-user-authentication
+          image: asia.gcr.io/poc-innovation-iot/deep-user-authentication:TAG
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: deep-user-authentication-secret-env
+          volumeMounts:
+              - mountPath: /config/config.yaml
+                name: deep-user-authentication-configmap-file
+                subPath: config.yaml
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+          resources:
+            limits:
+              cpu: 64m
+              memory: 64Mi
+            requests:
+              cpu: 32m
+              memory: 32Mi
+      volumes:
+        - name: deep-user-authentication-secret-file
+          secret:
+            secretName: deep-user-authentication-secret-file
+        - name: deep-user-authentication-configmap-file
+          configMap:
+            name: deep-user-authentication-configmap-file
