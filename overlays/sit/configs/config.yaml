@@ -22,8 +22,7 @@ postgres:
 kafka:
   address:
     - kafka.poc.internal:9092
-  topic: 
-    - deep-user-topic
+  topic: deep-user-topic
   consume-group: deep-user-consumer-group
 
 redis:
