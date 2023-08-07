@@ -1,5 +1,5 @@
 # don't forget to update config.model
-environment: sit
+environment: loadtest
 
 app:
   name: authentication
