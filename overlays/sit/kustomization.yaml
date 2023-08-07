@@ -8,7 +8,7 @@ namespace: deep-training
 
 images:
 - name: asia.gcr.io/poc-innovation-iot/deep-user-authentication
-  newTag: fd5d491c
+  newTag: 4d551dac
 
 
 configMapGenerator:
